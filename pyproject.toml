@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 ruff = "^0.9.7"
+stubs = "^1.0.0"
 mypy = "^1.15.0"
 black = "^25.1.0"
 

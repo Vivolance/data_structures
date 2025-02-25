@@ -198,6 +198,16 @@ files = [
 ]
 
 [[package]]
+name = "stubs"
+version = "1.0.0"
+description = "Tools for setting up stubs and mocks."
+optional = false
+python-versions = "*"
+files = [
+    {file = "stubs-1.0.0-py3-none-any.whl", hash = "sha256:f328a0f99880b0684db69288dcb104fa93d942df298ddd1659edaa7521415da8"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.12.2"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -211,4 +221,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ecbdce8af03c51b5356f96bb9ef8ad1fdf25a68b0bea5150fb734318335bd540"
+content-hash = "5b2ff49a6bf22aa97254c5b647c80b099ab6f789c93d6d6106bc024b6e97ab61"
