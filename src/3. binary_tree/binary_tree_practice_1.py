@@ -132,10 +132,51 @@ class BinaryTree:
                 else:
                     self.root = new_parent
 
+    def inorder_traversal(self) -> list[int]:
+        """
+        Visit left, self, right
+
+        Case 1: self.root is empty
+        print empty list
+
+        Case 2: self.root present
+        - Assign curr_ptr to self.root
+        - Create a stack to store the path that we have yet to visit
+        - Create a visited set to store the nodes we have visited
+        """
+        if self.root is None:
+            return []
+        else:
+            inorder_list: list[int] = []
+            call_stack: list[BinaryTreeNode] = [self.root]
+            visited: set[BinaryTreeNode] = set()
+            while call_stack:
+                # Check current node
+                curr_ptr: BinaryTreeNode = call_stack[-1]
+                # check is curr.left is visited
+                if curr_ptr.left and curr_ptr.left not in visited:
+                    call_stack.append(curr_ptr.left)
+                else:
+                    # curr.left is visited or not exist, visit curr node
+                    inorder_list.append(curr_ptr.value)
+                    visited.add(curr_ptr)
+                    # pop curr node from call_stack since its visited
+                    call_stack.pop()
+                    # check if curr.right exist and not yet visited
+                    if curr_ptr.right and curr_ptr.right not in visited:
+                        call_stack.append(curr_ptr.right)
+            return inorder_list
+
 
 if __name__ == "__main__":
     bst_1: BinaryTree = BinaryTree()
     bst_1.iterative_insert(10)
     bst_1.iterative_insert(20)
     bst_1.iterative_insert(30)
-    print(bst_1.root.left.value)
+    bst_1.iterative_insert(5)
+    bst_1.iterative_insert(25)
+    bst_1.iterative_insert(40)
+    bst_1.iterative_insert(1)
+
+    print(bst_1.root.value)
+    print(bst_1.inorder_traversal())
