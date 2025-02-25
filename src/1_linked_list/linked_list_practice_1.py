@@ -1,11 +1,14 @@
 """
 Implement a Single Linked list structure with the methods append, pop, insert and reverse
 """
+
 from typing import Optional
 
 
 class SinglyLinkedListNode:
-    def __init__(self, value: int, next: Optional["SinglyLinkedListNode"] = None) -> None:
+    def __init__(
+        self, value: int, next: Optional["SinglyLinkedListNode"] = None
+    ) -> None:
         self.value = value
         self.next = next
 
@@ -62,17 +65,18 @@ class SinglyLinkedList:
     def insert(self, value: int, position: int) -> None:
         new_node: SinglyLinkedListNode = SinglyLinkedListNode(value)
         if 0 <= position <= self.__length:
+            curr_ptr: SinglyLinkedListNode = self.head
+
             if self.head is None:
                 self.head = new_node
+
             elif position < self.__length:
-                curr_ptr: SinglyLinkedListNode = self.head
                 for i in range(position):
                     curr_ptr = curr_ptr.next
                 third_ptr: SinglyLinkedListNode = curr_ptr.next
                 curr_ptr.next = new_node
                 new_node.next = third_ptr
             else:
-                curr_ptr: SinglyLinkedListNode = self.head
                 while curr_ptr.next:
                     curr_ptr = curr_ptr.next
                 curr_ptr.next = new_node
