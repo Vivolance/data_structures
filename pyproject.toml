@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "data-structures"
+version = "0.1.0"
+description = ""
+authors = ["Elson Chan <elsonccjgmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ruff = "^0.9.7"
+mypy = "^1.15.0"
+black = "^25.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
+namespace_packages = true
+explicit_package_bases = true
+exclude = '^(\\.venv|venv|env|\\.g it|node_modules)/'
