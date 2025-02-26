@@ -132,6 +132,22 @@ class BinaryTree:
                 else:
                     self.root = new_parent
 
+    def iterative_invert(self) -> None:
+        """
+        Idea is to swap the left child and right child
+        """
+        if self.root is None:
+            raise ValueError("Binary Tree is empty")
+        call_stack: list[BinaryTreeNode] = [self.root]
+        while call_stack:
+            curr_ptr: BinaryTreeNode = call_stack.pop()
+            curr_ptr.left, curr_ptr.right = curr_ptr.right, curr_ptr.left
+
+            if curr_ptr.left:
+                call_stack.append(curr_ptr.left)
+            if curr_ptr.right:
+                call_stack.append(curr_ptr.right)
+
     def inorder_traversal(self) -> list[int]:
         """
         Visit left, self, right
@@ -223,4 +239,5 @@ if __name__ == "__main__":
     print(bst_1.inorder_traversal())
     print(bst_1.preorder_traversal())
     print(bst_1.postorder_traversal())
-
+    bst_1.iterative_invert()
+    print(bst_1.inorder_traversal())
