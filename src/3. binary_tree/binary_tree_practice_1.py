@@ -153,7 +153,7 @@ class BinaryTree:
             while call_stack:
                 # Check current node
                 curr_ptr: BinaryTreeNode = call_stack[-1]
-                # check is curr.left is visited
+                # check if curr.left is visited
                 if curr_ptr.left and curr_ptr.left not in visited:
                     call_stack.append(curr_ptr.left)
                 else:
@@ -166,6 +166,47 @@ class BinaryTree:
                     if curr_ptr.right and curr_ptr.right not in visited:
                         call_stack.append(curr_ptr.right)
             return inorder_list
+
+    def preorder_traversal(self) -> list[int]:
+        """
+        visit self, left, then right
+
+        """
+        if self.root is None:
+            return []
+        else:
+            call_stack: list[BinaryTreeNode] = [self.root]
+            preorder_list: list[int] = []
+            while call_stack:
+                curr_ptr: BinaryTreeNode = call_stack.pop()
+                preorder_list.append(curr_ptr.value)
+                if curr_ptr.right:
+                    call_stack.append(curr_ptr.right)
+                if curr_ptr.left:
+                    call_stack.append(curr_ptr.left)
+            return preorder_list
+
+    def postorder_traversal(self) -> list[int]:
+        if self.root is None:
+            return []
+        else:
+            call_stack: list[BinaryTreeNode] = [self.root]
+            visited: set[BinaryTreeNode] = set()
+            postorder_list: list[int] = []
+            while call_stack:
+                curr_ptr: BinaryTreeNode = call_stack[-1]
+                # If left child exists and hasn't been visited, push it
+                if curr_ptr.left and curr_ptr.left not in visited:
+                    call_stack.append(curr_ptr.left)
+                # Else if right child exists and hasn't been visited, push it
+                elif curr_ptr.right and curr_ptr.right not in visited:
+                    call_stack.append(curr_ptr.right)
+                # Both child visited
+                else:
+                    postorder_list.append(curr_ptr.value)
+                    visited.add(curr_ptr)
+                    call_stack.pop()
+            return postorder_list
 
 
 if __name__ == "__main__":
@@ -180,3 +221,6 @@ if __name__ == "__main__":
 
     print(bst_1.root.value)
     print(bst_1.inorder_traversal())
+    print(bst_1.preorder_traversal())
+    print(bst_1.postorder_traversal())
+
