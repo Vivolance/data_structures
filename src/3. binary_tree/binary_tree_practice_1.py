@@ -55,6 +55,24 @@ class BinaryTree:
         new_parent.height = new_parent.recalculate_height()
         return new_parent
 
+    def iterative_search(self, value: int) -> bool:
+        if self.root is None:
+            return False
+        curr_ptr: BinaryTreeNode = self.root
+        while True:
+            if curr_ptr.value > value:
+                if curr_ptr.right:
+                    curr_ptr = curr_ptr.right
+                else:
+                    return False
+            elif curr_ptr.value < value:
+                if curr_ptr.left:
+                    curr_ptr = curr_ptr.left
+                else:
+                    return False
+            else:
+                return True
+
     def iterative_insert(self, value: int) -> None:
         call_stack: list[BinaryTreeNode] = []
         new_node: BinaryTreeNode = BinaryTreeNode(value)
@@ -241,3 +259,5 @@ if __name__ == "__main__":
     print(bst_1.postorder_traversal())
     bst_1.iterative_invert()
     print(bst_1.inorder_traversal())
+    print(bst_1.search(30))
+    print(bst_1.search(200))
