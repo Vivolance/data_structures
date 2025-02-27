@@ -5,6 +5,7 @@ Create a min heap and max heap with the following methods:
 - heapify -> create a min/max heap
 - top -> display the top most item
 """
+
 import copy
 import heapq
 import random
@@ -38,13 +39,5 @@ if __name__ == "__main__":
     print(-max_heap_list[0])
 
     # heappop
-    heapq.heappop(min_heap_list) # pop -10
+    heapq.heappop(min_heap_list)  # pop -10
     print(min_heap_list[0])
-
-
-
-
-
-
-
-
