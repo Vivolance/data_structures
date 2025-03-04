@@ -11,6 +11,7 @@ predictable sequence.
 4. Unlike linear probing (which checks sequentially and can create long runs of occupied slots), quadratic probing jumps
 around the table in a quadratic pattern, which helps to reduce clustering.
 """
+
 from collections import defaultdict
 
 my_dict: dict[str, int] = {}
@@ -27,5 +28,3 @@ my_dict: dict[int, int] = defaultdict(int)
 for item in my_list:
     my_dict[item] += 1
 print(my_dict)
-
-

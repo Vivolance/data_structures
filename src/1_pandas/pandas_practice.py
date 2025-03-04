@@ -49,15 +49,9 @@ df_reset: pd.DataFrame = copy_df.reset_index()
 
 # Creating a data structure and writing it into a csv
 my_list: list[dict[str, int]] = [
-    {
-        "car": 10, "price": 12000
-    },
-    {
-        "car": "nissan", "price": 10000
-    },
-    {
-        "car": "kia", "price": 15000
-    }
+    {"car": 10, "price": 12000},
+    {"car": "nissan", "price": 10000},
+    {"car": "kia", "price": 15000},
 ]
 
 df: pd.DataFrame = pd.DataFrame(my_list)
