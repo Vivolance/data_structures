@@ -14,14 +14,14 @@ my_str: str = "clement"
 print(my_str[::-1])
 
 # Syntax: s[start:end:step]
-print(my_str[1:4])   # Output: 'lem'
-print(my_str[1:4:2])   # Output: 'lm', traverse in steps of 2
-print(my_str[5:1:-1])   # Output: 'neme', traverse backwards from position 5 to 2
+print(my_str[1:4])  # Output: 'lem'
+print(my_str[1:4:2])  # Output: 'lm', traverse in steps of 2
+print(my_str[5:1:-1])  # Output: 'neme', traverse backwards from position 5 to 2
 
 
 s = "clement"
 print(my_str[0])  # Output: 'c'
-print(my_str[-1]) # Output: 't'
+print(my_str[-1])  # Output: 't'
 
 
 b = "hello"
@@ -49,6 +49,5 @@ print(joined)  # Output: 'apple & banana & cherry'
 
 
 s = "I love apples"
-print(s.find("apples"))   # Output: 7 (index of substring)
+print(s.find("apples"))  # Output: 7 (index of substring)
 print(s.replace("apples", "oranges"))  # Output: 'I love oranges'
-
