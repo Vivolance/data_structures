@@ -1,6 +1,6 @@
 """
 Implement a DEPTH FIRST SEARCH (DFS) suing a stack. For simplicity, we always use a deque to implement this.
-DFS uses a stack in its implementation (FIFO)
+DFS uses a stack in its implementation (LIFO)
 """
 
 from collections import deque
