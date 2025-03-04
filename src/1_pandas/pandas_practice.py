@@ -46,3 +46,20 @@ print(only_amk)
 
 # Resetting the index, slower search since index is dropped
 df_reset: pd.DataFrame = copy_df.reset_index()
+
+# Creating a data structure and writing it into a csv
+my_list: list[dict[str, int]] = [
+    {
+        "car": 10, "price": 12000
+    },
+    {
+        "car": "nissan", "price": 10000
+    },
+    {
+        "car": "kia", "price": 15000
+    }
+]
+
+df: pd.DataFrame = pd.DataFrame(my_list)
+print(df)
+df.to_csv("src/1_pandas/car_list.csv", index=False)
