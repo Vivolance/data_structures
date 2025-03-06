@@ -1,5 +1,5 @@
 """
-Dynamic Programming:
+Dynamic Programming (DFS with cache):
 1. Using a smaller solution to solve a larger solution
 2. Top-Down Approach (Memoization): Break down the larger problems into smaller problems,
 each time a smaller solution is derived, we store it to be used later.
