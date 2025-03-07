@@ -5,6 +5,7 @@ given a list[int]
 bisect_left: gives the position of the first occurrence of the target
 bisect_right: gives the position + 1 of the last occurrence of the target
 """
+
 import bisect
 
 
@@ -26,8 +27,8 @@ def binary_search_right(n: list[int], x: int) -> int:
     """
     i: int = bisect.bisect_right(n, x)
     # i - 1 because bisect_right gives you the next position where x is found
-    if i < len(n) and n[i-1] == x:
-        return i-1
+    if i < len(n) and n[i - 1] == x:
+        return i - 1
     return -1
 
 
