@@ -183,4 +183,26 @@ WHERE price > ANY (
 
 
 ## 4. Window Functions
-### OVER
+Window functions in SQL let you perform calculations across a set of table rows related to the current 
+row without collapsing the result set. Various databases have their own sets of varying
+window functions. A window function is called OVER a set of rows. The OVER keyword is always
+present after a window function in a sql query.
+### Ranking Functions
+#### RANK()
+#### DENSE_RANK()
+#### ROW_NUMBER()
+#### NTILE(n)
+Divides the rows in a partition into n approximate equal group
+
+
+### Value Functions
+#### LAG
+#### LEAD
+#### FIRST_VALUE
+#### LAST_VALUE
+#### NTH_VALUE
+
+### Distribution Functions
+#### PERCENT_RANK()
+#### CUME_DIST()
+#### Agg functions as window functions
