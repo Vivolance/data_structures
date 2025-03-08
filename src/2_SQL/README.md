@@ -182,15 +182,34 @@ WHERE price > ANY (
 ```
 
 
-## 4. Window Functions
+## 4a. Window Functions
 Window functions in SQL let you perform calculations across a set of table rows related to the current 
 row without collapsing the result set. Various databases have their own sets of varying
 window functions. A window function is called OVER a set of rows. The OVER keyword is always
 present after a window function in a sql query.
 ### Ranking Functions
 #### RANK()
+Ranks WITH skipping when encountering similar values
+eg:
+1 Rank 1
+1 Rank 1
+2 Rank 3
 #### DENSE_RANK()
+Ranks WITHOUT skipping when encountering similar values
+eg:
+1 Rank 1
+1 Rank 1
+2 Rank 2
 #### ROW_NUMBER()
+Assigns a unique sequential integer counter to each row within a result set.
+Starts from 1.
+```sql
+SELECT 
+    employee_name,
+    salary,
+    ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) AS dept_rank
+FROM employees;
+```
 #### NTILE(n)
 Divides the rows in a partition into n approximate equal group
 
@@ -206,3 +225,13 @@ Divides the rows in a partition into n approximate equal group
 #### PERCENT_RANK()
 #### CUME_DIST()
 #### Agg functions as window functions
+
+
+## 4b. PARTITION BY
+Used in conjunction with window function. Partition by divides the result sets into partitions for the window function
+to act upon. The window function is then applied independently to each partition using the OVER keyword
+```sql
+SELECT employee_id, department, salary,
+       AVG(salary) OVER (PARTITION BY department) AS avg_dept_salary
+FROM employees;
+```
