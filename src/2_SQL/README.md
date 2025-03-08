@@ -138,11 +138,19 @@ LIMIT 5 OFFSET 10;
 
 ## 2. Aggregate Functions
 ### COUNT
+When used as COUNT(*), it counts all rows, including those with NULL values. 
+When used as COUNT(column), it counts only the rows where the column value is not NULL.
 ### SUM
+It adds up all numeric values in a column. It's important that the column contains numeric data, as SUM only works 
+with numbers.
 ### AVG
+It calculates the average (mean) of the values in a numeric column. Like SUM, AVG operates on numeric data and 
+ignores NULLs.
 ### MAX
+It returns the maximum value in a column. This can be applied to both numeric and text data (for text, it uses 
+lexicographical order).
 ### MIN
-
+It returns the minimum value in a column. Like MAX, this works with both numeric and text data.
 
 ## 3. Comparison Functions
 ### LIKE
