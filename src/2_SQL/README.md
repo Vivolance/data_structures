@@ -299,9 +299,67 @@ specifying the window frame ensures you’re considering all rows in the partiti
 
 ### C. Distribution Functions
 #### PERCENT_RANK()
-#### CUME_DIST()
-#### Agg functions as window functions
+Calculates the relative rank of a row as a percentage.
+PERCENT_RANK= (rank - 1) / (total_rows - 1)
+```sql
+SELECT 
+    sale_id,
+    revenue,
+    PERCENT_RANK() OVER (ORDER BY revenue) AS percent_rank
+FROM Sales;
 
+This query orders the rows by revenue. For each row, it calculates what percentage of rows come before it. 
+If a row is the first (lowest revenue), it gets 0. If it’s the last (highest revenue), it gets 1.
+```
+
+#### CUME_DIST()
+Calculates the fraction of rows that have a value less than or equal to the current row’s value. 
+Essentially, it tells you the cumulative proportion of rows up to that point.
+```sql
+SELECT 
+    sale_id,
+    revenue,
+    CUME_DIST() OVER (ORDER BY revenue) AS cume_dist
+FROM Sales;
+
+This query also orders the rows by revenue. For each row, CUME_DIST() returns the ratio of the number of rows with a 
+revenue less than or equal to the current row’s revenue to the total number of rows. Thus, if 70% of the rows have 
+revenue less than or equal to the current row, CUME_DIST() will return 0.7.
+```
+
+#### Agg functions as window functions
+Aggregate functions like SUM(), AVG(), MIN(), MAX(), and COUNT() are typically used to summarize data. When used with 
+an OVER() clause, they become window functions that can compute these summaries across a specific “window” of rows 
+while still returning individual row details.
+```sql
+SELECT 
+    sale_id,
+    sale_date,
+    revenue,
+    SUM(revenue) OVER (
+        ORDER BY sale_date 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) AS running_total
+FROM Sales;
+
+For each row, the SUM() function calculates the total revenue from the first sale up to the current sale 
+(ordered by sale_date). The window frame ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ensures that the aggregation 
+covers all rows from the beginning of the partition up to the current row.
+
+
+SELECT 
+    sale_id,
+    sale_date,
+    revenue,
+    AVG(revenue) OVER (
+        PARTITION BY YEAR(sale_date)
+    ) AS yearly_avg
+FROM Sales;
+
+
+This query divides the data into partitions based on the year. Within each partition (year), AVG() calculates the 
+average revenue. Each row in the same year will show the same yearly_avg.
+```
 
 ## 4b. PARTITION BY
 Used in conjunction with window function. Partition by divides the result sets into partitions for the window function
@@ -310,4 +368,16 @@ to act upon. The window function is then applied independently to each partition
 SELECT employee_id, department, salary,
        AVG(salary) OVER (PARTITION BY department) AS avg_dept_salary
 FROM employees;
+```
+Usages
+- Partition by multiple columns
+- Dynamic Partition -> PARTITION BY YEAR(sale_date)
+- No Partition
+```sql
+ SELECT 
+    sale_id, 
+    sale_date, 
+    revenue,
+    SUM(revenue) OVER (ORDER BY sale_date) AS running_total
+FROM Sales;
 ```
