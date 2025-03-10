@@ -190,12 +190,12 @@ WHERE price > ANY (
 ```
 
 
-## 4a. Window Functions
+## 4a. Window Functions (Must have OVER keyword after using a Window function)
 Window functions in SQL let you perform calculations across a set of table rows related to the current 
 row without collapsing the result set. Various databases have their own sets of varying
 window functions. A window function is called OVER a set of rows. The OVER keyword is always
 present after a window function in a sql query.
-### Ranking Functions
+### A. Ranking Functions
 #### RANK()
 Ranks WITH skipping when encountering similar values
 eg:
@@ -222,14 +222,82 @@ FROM employees;
 Divides the rows in a partition into n approximate equal group
 
 
-### Value Functions
+### B. Value Functions
 #### LAG
-#### LEAD
-#### FIRST_VALUE
-#### LAST_VALUE
-#### NTH_VALUE
+Returns the value from a previous row in the window (by default, immediately the preceding row)
+```sql
+CREATE TABLE Sales (
+    sale_id INT,
+    sale_date DATE,
+    revenue DECIMAL(10,2)
+);
 
-### Distribution Functions
+For each sale, this query retrieves the revenue from the previous sale (ordered by sale_date). 
+If there’s no previous row (like the first row), it returns 0 (the default).
+```
+#### LEAD
+Returns the value from a previous row in the window (by default, the immediately preceding row).
+```sql
+SELECT 
+    sale_id,
+    sale_date,
+    revenue,
+    LEAD(revenue, 1, 0) OVER (ORDER BY sale_date) AS next_revenue
+FROM Sales;
+
+For each sale, this retrieves the revenue from the next sale (by sale_date). If there’s no next row, it returns 0.
+```
+#### FIRST_VALUE
+Returns the first value in the window (based on the ordering).
+```sql
+SELECT 
+    sale_id,
+    sale_date,
+    revenue,
+    FIRST_VALUE(revenue) OVER (
+        ORDER BY sale_date 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) AS first_sale_revenue
+FROM Sales;
+
+This gives the revenue of the very first sale when ordered by sale_date. 
+The window frame (using ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) ensures that the entire partition 
+is considered.
+```
+#### LAST_VALUE
+Returns the last value in the window.
+```sql
+SELECT 
+    sale_id,
+    sale_date,
+    revenue,
+    LAST_VALUE(revenue) OVER (
+        ORDER BY sale_date 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) AS last_sale_revenue
+FROM Sales;
+
+This returns the revenue of the very last sale in the ordering. Note that without specifying the proper window frame, 
+the default might not cover the entire partition and might return the current row's value instead.
+```
+#### NTH_VALUE
+Returns the nth value in the window.
+```sql
+SELECT 
+    sale_id,
+    sale_date,
+    revenue,
+    NTH_VALUE(revenue, 2) OVER (
+        ORDER BY sale_date 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) AS second_sale_revenue
+FROM Sales;
+
+This retrieves the revenue from the second sale in the ordered list. Like LAST_VALUE, 
+specifying the window frame ensures you’re considering all rows in the partition.
+```
+
+### C. Distribution Functions
 #### PERCENT_RANK()
 #### CUME_DIST()
 #### Agg functions as window functions
