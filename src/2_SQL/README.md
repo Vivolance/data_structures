@@ -152,9 +152,29 @@ lexicographical order).
 ### MIN
 It returns the minimum value in a column. Like MAX, this works with both numeric and text data.
 
-## 3. Comparison Functions
+## 3. Mathematical Functions
 ### LIKE
+To perform pattern-based searches in text data.
+% matches any sequence of characters (including none).
+    - %ABC -> filter rows with values ending with ABC
+    - ABC% -> filter rows with values starting with ABC
+_ matches exactly one character.
 ### BETWEEN
+To determine if a value lies within a certain range. It is inclusive, meaning it includes both the lower and 
+upper bounds in the result.
+```sql
+expression BETWEEN lower_bound AND upper_bound
+
+# Lexicographically
+SELECT *
+FROM employees
+WHERE last_name BETWEEN 'A' AND 'M';
+
+# Date Range
+SELECT *
+FROM orders
+WHERE order_date BETWEEN '2025-01-01' AND '2025-01-31';
+```
 ### "!= or <>"
 Not Equal
 ### "> / >="
@@ -165,6 +185,17 @@ Less or less and equal to
 Filters out rows that are in or not inside the list
 ### IS NULL / IS NOT NULL
 Checks for null values
+### ROUND
+used to round a numeric value to a specified number of decimal places. This function is valuable for formatting output, 
+ensuring numeric precision, and making data more readable.
+```sql
+SELECT product_name,
+       price,
+       ROUND(price, 2) AS rounded_price
+FROM products;
+
+Rounding to 2 decimal places
+```
 ### EXISTS
 Test existence of a record in a sub query
 ```sql
@@ -380,4 +411,126 @@ Usages
     revenue,
     SUM(revenue) OVER (ORDER BY sale_date) AS running_total
 FROM Sales;
+```
+
+## 5. Conditional Expressions
+### Case When Then
+To implement conditional logic in SQL. Think of it as If Else Then.
+Purpose: Compute or derive new values using conditional logic.
+Effect: Adds new computed columns or influences ordering, but it does not remove rows from the result set.
+```sql
+SELECT employee_id, salary,
+       CASE 
+         WHEN salary >= 60000 THEN 'High'
+         WHEN salary >= 40000 THEN 'Medium'
+         ELSE 'Low'
+       END AS salary_category
+FROM employees;
+
+This categorization clearly differentiates CASE WHEN from filtering clauses like WHERE or HAVING, emphasizing its 
+role in computing conditional values rather than filtering rows.
+```
+Usage:
+- Used in Where
+```sql
+SELECT employee_id, salary
+FROM employees
+WHERE (CASE 
+         WHEN department = 'Sales' THEN salary
+         ELSE salary * 1.1
+       END) > 50000;
+       
+Here, the CASE expression applies a different multiplier depending on the department, and then filters based 
+on the computed value.
+```
+- Used in Order By
+```sql
+SELECT employee_id, salary
+    FROM employees
+    ORDER BY CASE 
+           WHEN salary >= 60000 THEN 1
+           WHEN salary >= 40000 THEN 2
+           ELSE 3
+         END;
+         
+This orders the rows based on the computed category, placing high-salary employees first, followed by medium, then low.
+```
+
+### COALESCE
+Returns the first non-NULL value in a list of expressions.
+```sql
+SELECT employee_id, COALESCE(commission, 0) AS commission_amount
+FROM employees;
+
+This ensures that if commission is NULL, 0 is used instead.
+```
+
+### NULLIF
+Compares two expressions and returns NULL if they are equal; otherwise, returns the first expression.
+```sql
+SELECT employee_id,
+       NULLIF(salary, 0) AS non_zero_salary
+FROM employees;
+
+This returns NULL for rows where the salary is 0.
+```
+
+## 6. Types and Conversions
+### CAST
+Convert and expression from one type to another
+```sql
+CAST(expression AS data_type)
+
+SELECT CAST('2025-03-08' AS DATE) AS my_date;
+```
+
+### DATE / DATETIME / TIMESTAMP
+DATE type in the form of '2025-01-01'
+DATETIME / TIMESTAMP in the form of '2025-01-01 12:00:00' (Varies across SQL dialects)
+
+### VARCHAR(n) / TEXT / CHAR(n)
+VARCHAR(10) -> String type in the form of 'string'. (10) represents 10 characters.
+TEXT -> Larger blocks of text
+CHAR(5) -> String of 5 chars, if shorter, padded with spaces
+
+### SMALLINT / INT / BIGINT / DECIMAL / FLOAT
+SMALLINT -> -32,768 to 32767 (2 bytes)
+INT -> -2,147,483,648 to 2,147,483,647 (4 bytes)
+BIGINT ->  -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 (8 bytes)
+DECIMAL(5,2) -> 5 digits, 2 decimal places
+FLOAT -> Approx type, can cause rounding errors. 7 decimal precision only
+
+### BOOLEAN
+BOOLEAN -> true / false
+
+
+## 7. JOINS
+### LEFT / RIGHT JOIN
+Retrieves all records from left table and only matching records from right table. (Vice Versa for right join)
+```sql
+SELECT * FROM A LEFT/RIGHT JOIN B ON A.key = B.key
+```
+
+### INNER JOIN
+Retrieves records with matching values from both table
+```sql
+SELECT * FROM A INNER JOIN B ON A.key = B.key
+```
+
+### FULL JOIN
+Retrieves all records when there is a match
+```sql
+SELECT * FROM A FULL OUTER JOIN B ON A.key = B.key
+```
+
+### LEFT / RIGHT JOIN with NULL CHECK
+Filter only the records where there is no match in the left/right table. Return rows that exist in A but not in B
+```sql
+SELECT * FROM A LEFT/RIGHT JOIN B ON A.key = B.key WHERE B.key IS NULL
+```
+
+### FULL JOIN WITH NULL CHECK
+Filters only records where there is no match between A or B (NULL values check in either)
+```sql
+SELECT * FROM A FULL OUTER JOIN B ON A.key = B.key WHERE A.key IS NULL OR B.key IS NULL
 ```
