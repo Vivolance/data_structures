@@ -1,6 +1,7 @@
 """
 Demonstration of how to make a synchronous api call with request library.
 """
+
 import time
 
 import requests
@@ -24,7 +25,7 @@ logger.addHandler(handler)
     delay=0.01,
     jitter=(-0.01, 0.01),
     max_delay=0.05,
-    backoff=2
+    backoff=2,
 )
 def sync_request(url: str) -> str:
     try:
