@@ -1,6 +1,7 @@
 """
 Demonstration of how to make an asynchronous api call with aiohttp library.
 """
+
 import asyncio
 import logging
 import time
@@ -19,9 +20,8 @@ logger.addHandler(handler)
 
 @retry(
     wait=wait_fixed(0.01),  # ~10ms between attempts
-    stop=stop_after_attempt(5), # 5 retries
-    reraise=True    # re-raise last exception if all retries fail
-
+    stop=stop_after_attempt(5),  # 5 retries
+    reraise=True,  # re-raise last exception if all retries fail
 )
 async def async_request(url: str) -> str:
     headers: dict[str, str] = {
@@ -32,7 +32,9 @@ async def async_request(url: str) -> str:
     }
     try:
         async with aiohttp.ClientSession() as sess:
-            async with sess.get(url, headers=headers, params=params, ssl=False) as response:
+            async with sess.get(
+                url, headers=headers, params=params, ssl=False
+            ) as response:
                 if response.status == 200:
                     response_text: str = await response.text()
                     return response_text
