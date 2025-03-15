@@ -1,5 +1,6 @@
 """
 Objective:
+Create a local spark mode, used for testing functionalities, learning spark technicals
 
 1. Reading CSV data with Spark.
 2. Data exploration and cleaning.
@@ -16,6 +17,7 @@ from pyspark.sql.functions import avg, regexp_replace
 # Setting up Spark Session (Entry Point)
 spark = (
     SparkSession.builder.appName("WorkforceEmploymentAnalysis")
+    # This states that this is running on local, if changed to a distributed env, use "yarn"
     .master("local[*]")
     .getOrCreate()
 )
