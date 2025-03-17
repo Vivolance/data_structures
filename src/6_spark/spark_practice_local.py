@@ -1,6 +1,6 @@
 """
 Objective:
-Create a local spark mode, used for testing functionalities, learning spark technicals
+Create a LOCAL spark mode, used for testing functionalities, learning spark technicals
 
 1. Reading CSV data with Spark.
 2. Data exploration and cleaning.
@@ -22,7 +22,7 @@ spark = (
     .getOrCreate()
 )
 
-# log
+# set log level to WARN
 spark.sparkContext.setLogLevel("WARN")
 
 # Define the file path
@@ -55,6 +55,10 @@ print(
     f"Spark read csv time taken: {spark_time_taken}, Pandas read csv time taken: {pandas_time_taken}"
 )
 
+"""
+Case 1: using DataFrame API
+"""
+
 # Changing str type to double type in Base Column for aggregation
 df_spark_clean = df_spark.withColumn(
     "Base Salary", regexp_replace(df_spark["Base Salary"], "[$,]", "").cast("double")
@@ -63,3 +67,23 @@ df_spark_clean = df_spark.withColumn(
 # Aggregation using DataFrame API, average Base Salary
 avg_df_spark: DataFrame = df_spark_clean.groupby("Company Name").agg(avg("Base Salary"))
 avg_df_spark.show(50)
+
+
+"""
+Case 2: Using Spark SQL
+
+# Convert "Base Salary" from string to double
+df_spark_clean = df_spark.withColumn(
+    "Base Salary", regexp_replace(df_spark["Base Salary"], "[$,]", "").cast("double")
+)
+
+# Create a temporary view from the cleaned DataFrame
+df_spark_clean.createOrReplaceTempView("company_data")
+
+# Use Spark SQL to compute the average Base Salary by Company Name
+avg_df_spark_sql = spark.sql("
+    SELECT `Company Name`, AVG(`Base Salary`) AS avg_base_salary
+    FROM company_data
+    GROUP BY `Company Name`
+")
+"""
