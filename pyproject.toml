@@ -22,6 +22,8 @@ pyspark = "^3.5.5"
 pyarrow = "^19.0.1"
 grpcio = "^1.71.0"
 protobuf = "^6.30.1"
+types-retry = "^0.9.9.20241221"
+types-requests = "^2.32.0.20250306"
 
 
 [build-system]
