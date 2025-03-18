@@ -18,8 +18,7 @@ from pyspark.sql.functions import avg, regexp_replace
 spark = (
     SparkSession.builder.appName("WorkforceEmploymentAnalysis")
     # This states that this is running on local, if changed to a distributed env, use "yarn"
-    .master("local[*]")
-    .getOrCreate()
+    .master("local[*]").getOrCreate()
 )
 
 # set log level to WARN
