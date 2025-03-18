@@ -65,6 +65,7 @@ df_spark_clean = df_spark.withColumn(
 )
 
 # Aggregation using DataFrame API, average Base Salary
+# if groupby() is used with an empty parentheses, it means to groupby all rows
 avg_df_spark: DataFrame = df_spark_clean.groupby("Company Name").agg(avg("Base Salary"))
 avg_df_spark.show(50)
 
