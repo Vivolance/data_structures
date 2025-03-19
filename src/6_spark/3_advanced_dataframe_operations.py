@@ -4,11 +4,10 @@ Advanced dataframe operations such as:
 2. Arrays and Maps
 """
 
-
 from typing import Any
 
 from pyspark.sql import SparkSession, DataFrame
-from pyspark.sql.functions import col, array, lit
+from pyspark.sql.functions import array, lit
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, MapType
 
 # Create a Spark session
@@ -16,12 +15,14 @@ spark = SparkSession.builder.appName("advanced_dataframe_operations").getOrCreat
 
 # Define an explicit schema with the desired column order, if this is not defined,
 # spark create dataframe will not guarantee specific order
-schema = StructType([
-    StructField("id", IntegerType(), False),
-    StructField("name", StringType(), True),
-    StructField("age", IntegerType(), True),
-    StructField("country", StringType(), True)
-])
+schema = StructType(
+    [
+        StructField("id", IntegerType(), False),
+        StructField("name", StringType(), True),
+        StructField("age", IntegerType(), True),
+        StructField("country", StringType(), True),
+    ]
+)
 
 user_data: list[dict[str, Any]] = [
     {"id": 1, "name": "elson", "age": 24, "country": None},
@@ -38,7 +39,7 @@ jobs_data: list[dict[str, Any]] = [
     {"id": 1, "occupation": "professor"},
     {"id": 2, "occupation": "teacher"},
     {"id": 3, "occupation": "student"},
-    {"id": 4, "occupation": "engineer"}
+    {"id": 4, "occupation": "engineer"},
 ]
 
 # Create a spark dataframe from raw data
@@ -60,7 +61,9 @@ df_with_array = user_df.withColumn("scores", array(lit(85), lit(90), lit(58)))
 df_with_array.show()
 
 # 4. Define a schema with a nexted column properties
-schema = StructType([
-    StructField("name", StructType(), True),
-    StructField("properties", MapType(StructType(), StringType()), True)
-])
+schema = StructType(
+    [
+        StructField("name", StructType(), True),
+        StructField("properties", MapType(StructType(), StringType()), True),
+    ]
+)
