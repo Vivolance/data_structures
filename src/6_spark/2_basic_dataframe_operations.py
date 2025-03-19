@@ -11,12 +11,14 @@ from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 # Create a Spark session
 spark = SparkSession.builder.appName("basic_dataframe_operations").getOrCreate()
 
-schema = StructType([
-    StructField("id", IntegerType(), False),
-    StructField("name", StringType(), True),
-    StructField("age", IntegerType(), True),
-    StructField("country", StringType(), True)
-])
+schema = StructType(
+    [
+        StructField("id", IntegerType(), False),
+        StructField("name", StringType(), True),
+        StructField("age", IntegerType(), True),
+        StructField("country", StringType(), True),
+    ]
+)
 
 data: list[dict[str, Any]] = [
     {"name": "elson", "age": 24, "country": None},
