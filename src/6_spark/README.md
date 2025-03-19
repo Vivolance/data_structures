@@ -14,6 +14,82 @@ Note that Spark uses lazy evaluation. Although calling spark.read.csv creates a 
 4. Overhead Differences:
 While Spark’s overhead (e.g., session initialization) can sometimes make it slower for very small datasets, when the data is sufficiently large or when parallel processing kicks in, Spark can outperform pandas.
 
+## Spark Concepts
+### 1. Spark Session
+The main entry point of Spark. To create a spark session to begin ingesting data and execute data manipulation, always begin with
+a Spark Session
+
+```python
+from pyspark.sql import SparkSession, DataFrame
+
+
+spark = spark.builder.appName("MySparkSession").getOrCreate()
+
+# set log level to WARN
+spark.sparkContext.setLogLevel("WARN")
+```
+
+### 2. Spark DataFrames
+Similar to Pandas, Spark has its own data frames which wraps table like data into a DataFrame type, allowing data manipulation
+to be done on it. Note that Spark DataFrames are immutable, which means we cannot modify the DataFrame in place, but only
+create a new DataFrame whenever we execute an operation to it.
+
+#### Usefule functions on DataFrames
+1. .agg("column_name", "max") Takes in a dict of column, function. Aggregate the max for each group
+- Other functions include, avg, sum, count, variance, first, last etc
+2. .groubpy("column_name") -> Group by a certain column
+
+To create a DataFrame:
+```python
+schema = StructType(
+    [
+        StructField("id", IntegerType(), False),
+        StructField("name", StringType(), True),
+        StructField("age", IntegerType(), True),
+        StructField("country", StringType(), True),
+    ]
+)
+
+data: list[dict[str, Any]] = [
+    {"name": "elson", "age": 24, "country": None},
+    {"name": "clement", "age": 34, "country": "Singapore"},
+    {"name": "joyce", "age": None, "country": "Malaysia"},
+]
+# 1. Handling missing data
+
+# Create a DataFrame from the list of dictionaries
+# type checker sound off, but a list[dict] is a valid input type for creteDataFrame()
+df = spark.createDataFrame(data, schema)
+```
+
+### 3. RDDs
+RDDs are core building block of Spark. It represents a distributed collection of data across a cluster. RDDs allow fast data access
+and analysis while DataFrames offer great user-friendliness due to simpler syntax and commands, though they can be slower.
+RDDs are immutable, meaning once created, they cannot be changed
+- Low-level more flexible but require more code for complex operations
+- Type Safe, preserve data types
+- No schema, harder to work with when dealing with structured data
+- Large Scaling
+- Extremely verbose, poor at analytics
+
+#### Useful functions
+1. map() -> applies functions (including lambda functions) across a dataset like:
+```python
+rdd.map(map_function)
+```
+2. collect() -> collects data from across the cluster like rdd.collect()
+
+```python
+from pyspark.sql import SparkSession, DataFrame
+
+spark: SparkSession = SparkSession.builder.appName("RDDExample").getOrCreate()
+
+# Create a data frame from a CSV
+workforce_employment_df: DataFrame = spark.read.csv("src/6_spark/input/workforce_employment_dataset.csv")
+
+# Create a RDD from the df
+workforce_employment_rdd = workforce_employment_df.rdd
+```
 
 ## Local Spark VS Spark Connect
 ### When to use Which?
