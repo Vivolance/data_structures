@@ -1,19 +1,5 @@
 # Spark Notes
 
-## Optimizations
-### Why is Spark faster than Pandas in read csv?
-1. Parallelism:
-Spark splits the file into partitions and processes them in parallel across multiple cores (or even multiple machines in a cluster). In contrast, pandas’ read_csv typically runs in a single thread.
-
-2. Optimized I/O:
-Spark’s CSV reader is implemented in Scala/Java and benefits from the JVM’s optimizations. It can read and parse large files efficiently by using optimized I/O libraries.
-
-3. Lazy Evaluation:
-Note that Spark uses lazy evaluation. Although calling spark.read.csv creates a DataFrame immediately, the actual file reading might be deferred until an action (like show() or count()) is triggered. If you’re timing just the creation of the DataFrame, it might not be a direct one-to-one comparison with pandas.
-
-4. Overhead Differences:
-While Spark’s overhead (e.g., session initialization) can sometimes make it slower for very small datasets, when the data is sufficiently large or when parallel processing kicks in, Spark can outperform pandas.
-
 ## Spark Concepts
 ### 1. Spark Session
 The main entry point of Spark. To create a spark session to begin ingesting data and execute data manipulation, always begin with
@@ -34,10 +20,16 @@ Similar to Pandas, Spark has its own data frames which wraps table like data int
 to be done on it. Note that Spark DataFrames are immutable, which means we cannot modify the DataFrame in place, but only
 create a new DataFrame whenever we execute an operation to it.
 
-#### Usefule functions on DataFrames
+#### Useful functions on DataFrames
 1. .agg("column_name", "max") Takes in a dict of column, function. Aggregate the max for each group
 - Other functions include, avg, sum, count, variance, first, last etc
 2. .groubpy("column_name") -> Group by a certain column
+3. .describe().show() -> Describe to show an additional column of the count, std dev, sum etc.
+4. .cast("int") -> Cast columns into other types used for aggregation
+```python
+df = df.withColumn("Salary", df["Salary"].cast("int"))
+```
+5. .filter(df.column_name == "some_conditions") -> Filter a column by certain conditions
 
 To create a DataFrame:
 ```python
@@ -71,11 +63,17 @@ RDDs are immutable, meaning once created, they cannot be changed
 - No schema, harder to work with when dealing with structured data
 - Large Scaling
 - Extremely verbose, poor at analytics
+- Best to use lambda functions on RDD
 
 #### Useful functions
-1. map() -> applies functions (including lambda functions) across a dataset like:
+1. map() -> applies functions (including lambda functions) across EVERY element or row in the RDD, creating a new RDD
+where each element is the result of that function applied to the corresponding row.
 ```python
-rdd.map(map_function)
+# EG. 1 Maps the rdd into a tuple of (Department, Salary)
+rdd.map(lambda row: (row["Department"], row["Salary"]))
+
+# E.G 2 Groups all value sby key, then adding the 2 numbers
+rdd_aggregated = rdd.reduceByKey(lambda x, y: x + y)
 ```
 2. collect() -> collects data from across the cluster like rdd.collect()
 
@@ -105,6 +103,19 @@ You want to decouple your client application from the Spark cluster. For example
 You are in an environment where you need a thin client—perhaps for better resource isolation or to enable interactive notebooks to communicate with a remote Spark service.
 Your architecture benefits from a client–server approach, which can simplify cluster management, allow for better scaling of client applications, or integrate with different languages more seamlessly.
 Spark connect requires grpcio, pyarrow, protobuf library
+
+### Why is Spark faster than Pandas in read csv?
+1. Parallelism:
+Spark splits the file into partitions and processes them in parallel across multiple cores (or even multiple machines in a cluster). In contrast, pandas’ read_csv typically runs in a single thread.
+
+2. Optimized I/O:
+Spark’s CSV reader is implemented in Scala/Java and benefits from the JVM’s optimizations. It can read and parse large files efficiently by using optimized I/O libraries.
+
+3. Lazy Evaluation:
+Note that Spark uses lazy evaluation. Although calling spark.read.csv creates a DataFrame immediately, the actual file reading might be deferred until an action (like show() or count()) is triggered. If you’re timing just the creation of the DataFrame, it might not be a direct one-to-one comparison with pandas.
+
+4. Overhead Differences:
+While Spark’s overhead (e.g., session initialization) can sometimes make it slower for very small datasets, when the data is sufficiently large or when parallel processing kicks in, Spark can outperform pandas.
 
 ## User Defined Functions
 Custom function to work with data using PySpark DataFrames. They are very useful in Spark when you need to apply
@@ -146,3 +157,37 @@ Processing data in vectorized form is generally more memory efficient and takes 
 - Simple transformations like data cleaning
 - Changes at columnar level, not row level
 - Must be registered to a SparkSession with UDFs
+
+## Spark SQL
+1. Module in Apache Spark for structured data processing
+2. Allows us to run SQL queries alongside data processing tasks
+3. Seamless combination of Python and SQL in one application
+4. DataFrame Interfacing, provides programmatic access to structured data
+
+### Temp Views
+Temporary Views are the entry point for using SQL for data manipulation
+```python
+df.createOrReplaceTempView("table_view_name")
+```
+The view protects the underlying data while doing analytics. They are immediately destroyed when the session ends.
+
+### Combining SQL and DataFrame Operations
+```python
+# SQL query result
+query_result = spark.sql("SELECT Name, Salary FROM employees WHERE Salary > 3000")
+
+# DataFrame transformation
+high_earners = query_result.withColumn("Bonus", query_result.Salary * 0.1)
+high_earners.show()
+```
+
+## Optimizations
+### Best Practices for PySpark Aggregations
+- Filter early to reduce data size before performing aggregations
+- Handle data type: ensure data is clean and correctly types
+- Avoid operations that uses the entire dataset, minimize operations such as groupBy()
+- Choose the right interface, prefer DataFrames due to their optimizations
+- Monitor performance: Use explain() to inspect the execution plan and optimize accordingly
+
+
+
