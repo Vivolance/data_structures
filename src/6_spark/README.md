@@ -185,9 +185,55 @@ high_earners.show()
 ### Best Practices for PySpark Aggregations
 - Filter early to reduce data size before performing aggregations
 - Handle data type: ensure data is clean and correctly types
-- Avoid operations that uses the entire dataset, minimize operations such as groupBy()
+- Avoid repeated operations that uses the entire dataset, minimize operations such as groupBy()
 - Choose the right interface, prefer DataFrames due to their optimizations
 - Monitor performance: Use explain() to inspect the execution plan and optimize accordingly
 
+### Broadcast
+To use all compute for smaller tasks
+- Broadcast Joins to use all compute, even on smaller datasets
+- When you broadcast a variable, Spark sends it once to each executor rather than shipping it with every single task. 
+This minimizes network I/O and reduces overhead, especially in operations like joins where one dataset is small enough to broadcast.
+- Reducing Data Shuffles:
+In distributed operations, frequently transferring the same data between nodes can slow down performance. 
+By broadcasting that data, every node can access the copy locally, thereby reducing the need to shuffle data around.
 
+### Explain
+The explain method allows us to view the execution plan of a physical query. This allows us to see the sequence the query
+is executed at a more granular level, allowing developers to spot inefficiencies. As a rule of thumb,
+store intermediate results and avoid using collect() or show() (Action queries) unless required.
+```python
+# Use explain() to view execution plans
+df.filter(df.Age > 30).select("Name").explain()
 
+# == Physical Plan ==
+# *(1) Filter (isnotNull(Age) AND (Age > 30))
+# +- Scan ExistingRDD[Name: String, Age: Int]
+```
+
+### Caching and Persisting
+#### Caching
+Stores data in memory for faster in memory processing for smaller datasets
+```python
+df.spark.read.csv("large_datasets.csv", headers=True, inferSchema=True)
+# Cache the DataFrame
+df.cache()
+# Perform multiple operation on the df
+df.filter(df["column1"] > 50).show()
+df.groupBy("column2").count().show
+```
+
+#### Persist
+Stores data in different storage levels for larger datasets. Spark stores the overflow memory in disk.
+```python
+from pyspark import StorageLevel
+
+df.persist(StorageLevel.MEMORY_AND_DISK)
+
+# Perform Transformations
+result = df.groupBy("column3").agg({"column4": "sum"})
+result.show()
+
+# Unpersist after use
+df.unpersist()
+```
