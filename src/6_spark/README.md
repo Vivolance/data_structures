@@ -213,14 +213,21 @@ df.filter(df.Age > 30).select("Name").explain()
 
 ### Caching and Persisting
 #### Caching
-Stores data in memory for faster in memory processing for smaller datasets
+Stores data in memory for faster in memory processing for smaller datasets. 
+Caching is only triggered when we call an action call ike show(), count()
 ```python
-df.spark.read.csv("large_datasets.csv", headers=True, inferSchema=True)
-# Cache the DataFrame
-df.cache()
-# Perform multiple operation on the df
-df.filter(df["column1"] > 50).show()
-df.groupBy("column2").count().show
+# Suppose df_features is the result of expensive feature engineering
+df_features = raw_df.filter("age is not null").withColumn("normalized_salary", col("salary")/1000)
+
+# Cache the DataFrame because it will be used in multiple iterations of a training loop
+df_features.cache()
+df_features.count()  # Triggers caching
+
+for i in range(10):
+    # Perform an iterative step, e.g., re-compute an aggregation or join using df_features
+    result = df_features.groupBy("occupation").agg(avg("normalized_salary").alias("avg_salary"))
+    result.show()
+
 ```
 
 #### Persist
