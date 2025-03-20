@@ -214,7 +214,10 @@ df.filter(df.Age > 30).select("Name").explain()
 ### Caching and Persisting
 #### Caching
 Stores data in memory for faster in memory processing for smaller datasets. 
-Caching is only triggered when we call an action call ike show(), count()
+Caching is lazy, only triggered when we call an action call ike show(), count(). 
+As a rule of thumb:
+1. Cache expensive operations such as joins or orderBy
+2. Cache only if you are performing other transformations ont he datasets
 ```python
 # Suppose df_features is the result of expensive feature engineering
 df_features = raw_df.filter("age is not null").withColumn("normalized_salary", col("salary")/1000)
@@ -227,11 +230,11 @@ for i in range(10):
     # Perform an iterative step, e.g., re-compute an aggregation or join using df_features
     result = df_features.groupBy("occupation").agg(avg("normalized_salary").alias("avg_salary"))
     result.show()
-
 ```
 
 #### Persist
 Stores data in different storage levels for larger datasets. Spark stores the overflow memory in disk.
+Persist is a lower level cache() where it allows you to define the storage level.
 ```python
 from pyspark import StorageLevel
 
@@ -241,6 +244,6 @@ df.persist(StorageLevel.MEMORY_AND_DISK)
 result = df.groupBy("column3").agg({"column4": "sum"})
 result.show()
 
-# Unpersist after use
+# Unpersist after use, to free up memory
 df.unpersist()
 ```
