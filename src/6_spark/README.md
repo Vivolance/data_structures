@@ -164,14 +164,14 @@ Processing data in vectorized form is generally more memory efficient and takes 
 3. Seamless combination of Python and SQL in one application
 4. DataFrame Interfacing, provides programmatic access to structured data
 
-### Temp Views
+### 1. Temp Views
 Temporary Views are the entry point for using SQL for data manipulation
 ```python
 df.createOrReplaceTempView("table_view_name")
 ```
 The view protects the underlying data while doing analytics. They are immediately destroyed when the session ends.
 
-### Combining SQL and DataFrame Operations
+### 2. Combining SQL and DataFrame Operations
 ```python
 # SQL query result
 query_result = spark.sql("SELECT Name, Salary FROM employees WHERE Salary > 3000")
@@ -182,14 +182,14 @@ high_earners.show()
 ```
 
 ## Optimizations
-### Best Practices for PySpark Aggregations
+### 1. Best Practices for PySpark Aggregations
 - Filter early to reduce data size before performing aggregations
 - Handle data type: ensure data is clean and correctly types
 - Avoid repeated operations that uses the entire dataset, minimize operations such as groupBy()
 - Choose the right interface, prefer DataFrames due to their optimizations
 - Monitor performance: Use explain() to inspect the execution plan and optimize accordingly
 
-### Broadcast
+### 2. Broadcast
 To use all compute for smaller tasks
 - Broadcast Joins to use all compute, even on smaller datasets
 - When you broadcast a variable, Spark sends it once to each executor rather than shipping it with every single task. 
@@ -198,7 +198,7 @@ This minimizes network I/O and reduces overhead, especially in operations like j
 In distributed operations, frequently transferring the same data between nodes can slow down performance. 
 By broadcasting that data, every node can access the copy locally, thereby reducing the need to shuffle data around.
 
-### Explain
+### 3. Explain
 The explain method allows us to view the execution plan of a physical query. This allows us to see the sequence the query
 is executed at a more granular level, allowing developers to spot inefficiencies. As a rule of thumb,
 store intermediate results and avoid using collect() or show() (Action queries) unless required.
@@ -211,8 +211,8 @@ df.filter(df.Age > 30).select("Name").explain()
 # +- Scan ExistingRDD[Name: String, Age: Int]
 ```
 
-### Caching and Persisting
-#### Caching
+### 4. Caching and Persisting
+#### a. Caching
 Stores data in memory for faster in memory processing for smaller datasets. 
 Caching is lazy, only triggered when we call an action call ike show(), count(). 
 As a rule of thumb:
@@ -232,7 +232,7 @@ for i in range(10):
     result.show()
 ```
 
-#### Persist
+#### b. Persist
 Stores data in different storage levels for larger datasets. Spark stores the overflow memory in disk.
 Persist is a lower level cache() where it allows you to define the storage level.
 ```python
