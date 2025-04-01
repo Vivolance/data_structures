@@ -25,6 +25,7 @@ protobuf = "^6.30.1"
 types-retry = "^0.9.9.20241221"
 types-requests = "^2.32.0.20250306"
 psutil = "^7.0.0"
+confluent-kafka = "^2.9.0"
 
 
 [build-system]
