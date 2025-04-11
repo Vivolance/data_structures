@@ -6,6 +6,7 @@ Key Points:
 age=2, letting the user now that 2 is an age
 4. You can use * and ** to unpack tuple and dicts
 """
+
 from typing import Any
 
 
@@ -42,6 +43,6 @@ if __name__ == "__main__":
     # print(addition(2, c=3))
 
     my_details: tuple[str, int] = ("Elson", 30)
-    my_details_keyword: dict[str, Any] = {"name": "Clement", "age" : 29}
+    my_details_keyword: dict[str, Any] = {"name": "Clement", "age": 29}
     print(unpacking_vars(*my_details))
     print(unpacking_vars(**my_details_keyword))

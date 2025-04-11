@@ -2,10 +2,11 @@
 1. List/Set/Dictionary/Generator comprehensions are faster tha for loops as it is implemented in C
 2. It is a clean and concise way to create lists in Python
 """
+
 from typing import Generator
 
 # List Comprehension
-squares_list: list[int] = [x for x in range(5)]
+squares_list: list[int] = [(lambda x: x**2)(x) for x in range(5)]
 print(squares_list)
 
 # Set Comprehension

@@ -2,16 +2,18 @@
 BACKTRACKING
 
 Main Rules to solve any Backtracking problems:
-1. *** Identify what states to store in the call_stack (eg stack = [(path, index, remaining)]
-2. ** Identify constraints at each level (eg remaining < target)
-3. * Backtracking primarily use DFS (stack) to implement
+1. **** Identify what states to store in the call_stack (eg stack = [(path, index, remaining)]
+2. ***
+- Use last_left_off_index when order do not matter, you don;t want to repeat the same elements (eg combsum1, combsum2, subset)
+- Use remaining_choices when order does matter, you want to explore all permutations (eg permutations)
+3. ** Identify constraints at each level (eg remaining < target)
+4. * Backtracking primarily use DFS (stack) to implement
 
 Qn (Combination Sum): Given a list[nums] and the target, find out how many unique combination of the list[nums]
 we can derive to match the target. Individual numbers can be repeated unlimited times. [2,2,5] is the same as [2,5,2]
 
 
 QN (Permutations): Given a list of int, return all unique permutations in any order that can be generated from the list
-
 """
 
 

@@ -23,4 +23,3 @@ __name__ is automatically set to "__main__".
 
 10. __exit__/__aexit__ Called at the end of a with block to exit and close the context managers
 """
-
