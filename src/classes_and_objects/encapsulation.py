@@ -11,6 +11,7 @@ class Anything:
     """
     NEGATIVE EXAMPLE
     """
+
     def __init__(self, name: str, age: int) -> None:
         self.name = name
         self.age = age
@@ -20,6 +21,7 @@ class Anything2:
     """
     POSITIVE EXAMPLE
     """
+
     def __init__(self, name: str, age: int) -> None:
         self._name = name
         self.__age = age
@@ -38,12 +40,12 @@ if __name__ == "__main__":
     print(obj.age)  # prints 2
     # Changes the attribute easily
     obj.age = 100
-    print(obj.age) # prints 100
+    print(obj.age)  # prints 100
 
     # POSITIVE EXAMPLE
     obj2 = Anything2("Clement", 25)
     # Safely accessing the age
-    print(obj2.get_age()) # returns 25
+    print(obj2.get_age())  # returns 25
     # Safely changes the age
     obj2.set_age(30)
-    print(obj2.get_age())   # returns 30
+    print(obj2.get_age())  # returns 30

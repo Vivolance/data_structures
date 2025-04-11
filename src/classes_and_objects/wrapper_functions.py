@@ -2,6 +2,7 @@
 Key Points:
 1. A wrapper function is a function that modifies the behaviour of another function
 """
+
 import functools
 from typing import Callable, Any
 
@@ -13,6 +14,7 @@ def wrapper_function(func: Callable[..., Any]) -> Callable[..., Any]:
         func(*args, **kwargs)
         print("This is happening AFTER the actual function")
         return
+
     return modify_func
 
 
