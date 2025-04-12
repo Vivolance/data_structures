@@ -4,8 +4,10 @@ BACKTRACKING
 Main Rules to solve any Backtracking problems:
 1. **** Identify what states to store in the call_stack (eg stack = [(path, index, remaining)]
 2. ***
-- Use last_left_off_index when order do not matter, you don;t want to repeat the same elements (eg combsum1, combsum2, subset)
-- Use remaining_choices when order does matter, you want to explore all permutations (eg permutations)
+- Use last_left_off_index when different order do not matter ([2,1], [1,2] are the same), you don't want to repeat the
+  same elements (eg combsum1, combsum2, subset) Look forward only
+- Use remaining_choices when different order does matter ([2,1], [1,2] are different), you want to explore all
+  permutations (eg permutations) Look at all choices left
 3. ** Identify constraints at each level (eg remaining < target)
 4. * Backtracking primarily use DFS (stack) to implement
 
