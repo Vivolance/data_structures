@@ -1293,6 +1293,17 @@ files = [
 ]
 
 [[package]]
+name = "sortedcontainers"
+version = "2.4.0"
+description = "Sorted Containers -- Sorted List, Sorted Dict, Sorted Set"
+optional = false
+python-versions = "*"
+files = [
+    {file = "sortedcontainers-2.4.0-py2.py3-none-any.whl", hash = "sha256:a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0"},
+    {file = "sortedcontainers-2.4.0.tar.gz", hash = "sha256:25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88"},
+]
+
+[[package]]
 name = "stubs"
 version = "1.0.0"
 description = "Tools for setting up stubs and mocks."
@@ -1480,4 +1491,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "cb1f1d95e2653cf317e803d20c17f36d7d217b32af93681af40bc5bd98b3a6b5"
+content-hash = "9442160791abd8015b9de718ac67dd942e2609d383cbe61b4844a2771c10e536"
