@@ -18,7 +18,7 @@ class PriorityQueue(Generic[T]):
     def __repr__(self) -> str:
         return f"PriorityQueue({list(self.queue)})"
 
-    def push(self, item: T, priority: int) -> None:
+    def push(self, priority: int, item: T) -> None:
         entry: tuple[int, T] = (priority, item)
         if not self.queue:
             self.queue.append(entry)
