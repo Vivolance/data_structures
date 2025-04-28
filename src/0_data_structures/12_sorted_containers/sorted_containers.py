@@ -28,22 +28,22 @@ sorted_list: SortedList = SortedList(my_list)
 
 # gets the next position where 2 is supposed to be added
 bisect_right_2: int = sorted_list.bisect_right(2)
-print(bisect_right_2)   # output: 4
+print(bisect_right_2)  # output: 4
 
 # gets the next position where 2 is supposed to be added
 bisect_left_2: int = sorted_list.bisect_left(2)
-print(bisect_left_2)    # output: 1
+print(bisect_left_2)  # output: 1
 
 
 # Sorted Dict
 # Creation
 sd = SortedDict()
-sd['banana'] = 3
-sd['apple'] = 5
-sd['cherry'] = 2
+sd["banana"] = 3
+sd["apple"] = 5
+sd["cherry"] = 2
 
 print(sd)  # SortedDict({'apple': 5, 'banana': 3, 'cherry': 2})
-print(list(sd.keys()))    # ['apple', 'banana', 'cherry']
+print(list(sd.keys()))  # ['apple', 'banana', 'cherry']
 print(list(sd.values()))  # [5, 3, 2]
-print(list(sd.items()))   # [('apple', 5), ('banana', 3), ('cherry', 2)]
-print(sd.bisect_left('blueberry'))  # 2 (after 'banana')
+print(list(sd.items()))  # [('apple', 5), ('banana', 3), ('cherry', 2)]
+print(sd.bisect_left("blueberry"))  # 2 (after 'banana')
