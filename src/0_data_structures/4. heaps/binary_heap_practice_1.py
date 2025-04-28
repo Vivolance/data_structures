@@ -4,6 +4,16 @@ Create a min heap and max heap with the following methods:
 - heappush -> append an item to the heap
 - heapify -> create a min/max heap
 - top -> display the top most item
+
+Note:
+1. heapify() -> smallest number is at index 0. We CANNOT assume the next smallest is at index 1.
+2. USe negative sign to implement a max heap. Copy [-nums for num in nums] to do a max heap
+3. After we do heappop() we are guarantee to always pop the smallest number. The heap then rearranges itself
+calling index [0] will return the smallest of the reamining heap.
+4. Time complexity:
+    - heapify() -> O(N)
+    - heappop() -> O(logN)
+    - heappush() -> O(logN)
 """
 
 import copy
@@ -12,7 +22,7 @@ import random
 
 
 def min_heap(my_list: list[int]) -> list[int]:
-    deep_nums: list[int] = copy.deepcopy(my_list)
+    deep_nums: list[int] = copy.copy(my_list)
     heapq.heapify(deep_nums)
     return deep_nums
 
