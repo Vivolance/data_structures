@@ -7,7 +7,7 @@ inorder_traversal
 preorder_traversal
 postorder_traversal
 """
-
+from collections import deque
 from typing import Optional
 
 
@@ -242,6 +242,24 @@ class BinaryTree:
                     call_stack.pop()
             return postorder_list
 
+    def level_order_traversal(self) -> list[int]:
+        """
+        Traverse the Tree in a level order fashion, returns a list of node's value in each level from top to bottom
+        - uses BFS algorithm
+        """
+        if self.root is None:
+            return []
+        results: list[int] = []
+        queue: deque[BinaryTreeNode] = deque([self.root])
+        while queue:
+            curr_node: BinaryTreeNode = queue.popleft()
+            results.append(curr_node.value)
+            if curr_node.left:
+                queue.append(curr_node.left)
+            if curr_node.right:
+                queue.append(curr_node.right)
+        return results
+
 
 if __name__ == "__main__":
     bst_1: BinaryTree = BinaryTree()
@@ -259,5 +277,6 @@ if __name__ == "__main__":
     print(bst_1.postorder_traversal())
     bst_1.iterative_invert()
     print(bst_1.inorder_traversal())
-    print(bst_1.search(30))
-    print(bst_1.search(200))
+    print(bst_1.iterative_search(30))
+    print(bst_1.iterative_search(200))
+    print(bst_1.level_order_traversal())
