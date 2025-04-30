@@ -1,5 +1,5 @@
 """
-Implement a BREADTH FIRST SEARCH (BFS) suing a queue. For simplicity, we always use a deque to implement this.
+Implement a BREADTH FIRST SEARCH (BFS) using a queue. For simplicity, we always use a deque to implement this.
 DFS uses a stack in its implementation (FIFO)
 """
 
