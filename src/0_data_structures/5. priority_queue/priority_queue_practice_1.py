@@ -26,7 +26,7 @@ class PriorityQueue(Generic[T]):
             inserted: bool = False
             for i in range(len(self.queue)):
                 # if similar priority, follows a typical queue, append at last of all similar priority
-                if entry[0] < self.queue[i][0]:
+                if entry[0] > self.queue[i][0]:
                     self.queue.insert(i, entry)
                     inserted = True
                     break
@@ -55,6 +55,7 @@ if __name__ == "__main__":
 
     # Remove the most prioritised item
     my_queue.pop()
+    my_queue.push(20, 5)
 
     # See the most prioritise item without removing
     print(my_queue.peek())
