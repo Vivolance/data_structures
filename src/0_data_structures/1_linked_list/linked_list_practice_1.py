@@ -108,6 +108,28 @@ class SinglyLinkedList:
             curr_ptr.next = prev_ptr
             self.head = curr_ptr
 
+    def reverse_recursive(self) -> None:
+        if self.head is None:
+            raise ValueError("Linked List is empty!")
+
+        def _reverse_recursive(node: SinglyLinkedListNode) -> SinglyLinkedListNode:
+            """
+            A -> B -> C
+            ^
+
+            self.head = _r(A) -> self.head = C
+            new_head = _r(A.next = B) -> new_head = C, A.next.next = A, A.next = None, returns C
+            new_head = _r(B.next = C) -> new_head = C, B.next.next = B, B.next = None, returns C
+            new_head = _r(C.next = None) -> returns C
+            """
+            if node.next is None:
+                return node
+            new_head = _reverse_recursive(node.next)
+            node.next.next = node
+            node.next = None
+            return new_head
+        self.head = _reverse_recursive(self.head)
+
 
 if __name__ == "__main__":
     linked_list: SinglyLinkedList = SinglyLinkedList()
@@ -118,6 +140,6 @@ if __name__ == "__main__":
     linked_list.pop()
     linked_list.insert(15, 1)
     linked_list.insert(22, 3)
-    linked_list.reverse()
+    linked_list.reverse_recursive()
     print(linked_list)
     print(len(linked_list))
