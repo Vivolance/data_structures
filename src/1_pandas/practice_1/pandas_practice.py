@@ -2,7 +2,7 @@ import pandas as pd
 from pandas.core.groupby import DataFrameGroupBy
 
 # Reading csv files
-df: pd.DataFrame = pd.read_csv("src/1_pandas/sample.csv")
+df: pd.DataFrame = pd.read_csv("src/1_pandas/practice_1/sample.csv")
 print(df)
 
 # Count all rows in each column that are not null
@@ -13,7 +13,7 @@ print(df.count())
 filtered_df: pd.DataFrame = df.iloc[0:2, 0:2]
 print(filtered_df)
 
-# Returns a serires of bools that shows whether each row contains jaosn or not
+# Returns a series of bools that shows whether each row contains jason or not
 contains_jason: pd.Series = df["name"].str.contains("jason")
 print(contains_jason)
 
