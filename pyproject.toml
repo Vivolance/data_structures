@@ -27,6 +27,9 @@ types-requests = "^2.32.0.20250306"
 psutil = "^7.0.0"
 confluent-kafka = "^2.9.0"
 sortedcontainers = "^2.4.0"
+sqlalchemy = "^2.0.40"
+psycopg2 = "^2.9.10"
+psycopg2-binary = "^2.9.10"
 
 
 [build-system]
