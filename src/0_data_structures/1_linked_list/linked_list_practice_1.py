@@ -128,6 +128,7 @@ class SinglyLinkedList:
             node.next.next = node
             node.next = None
             return new_head
+
         self.head = _reverse_recursive(self.head)
 
 

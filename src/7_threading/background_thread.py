@@ -11,7 +11,9 @@ def background_callable(name: str, age: int) -> None:
 if __name__ == "__main__":
     print("main thread begins")
     # Create a background thread that runs in the background
-    background_thread: threading.Thread = threading.Thread(target=background_callable, args=("Jason", 10))
+    background_thread: threading.Thread = threading.Thread(
+        target=background_callable, args=("Jason", 10)
+    )
     background_thread.start()
     background_thread.join()
     print("end of background thread")

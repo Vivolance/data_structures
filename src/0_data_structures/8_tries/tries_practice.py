@@ -29,5 +29,3 @@ class Trie:
             # reaches the last char of the word inserted, set end_of_word to be true
             if index == len(word) - 1:
                 curr_ptr.end_of_word = True
-
-
