@@ -257,11 +257,12 @@ Divides the rows in a partition into n approximate equal group
 #### LAG
 Returns the value from a previous row in the window (by default, immediately the preceding row)
 ```sql
-CREATE TABLE Sales (
-    sale_id INT,
-    sale_date DATE,
-    revenue DECIMAL(10,2)
-);
+SELECT
+  sale_id,
+  sale_date,
+  revenue,
+  LAG(revenue, 1, 0) OVER (ORDER BY sale_date) AS previous_revenue
+FROM Sales;
 
 For each sale, this query retrieves the revenue from the previous sale (ordered by sale_date). 
 If there’s no previous row (like the first row), it returns 0 (the default).
