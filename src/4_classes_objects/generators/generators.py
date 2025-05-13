@@ -1,9 +1,14 @@
 """
-Define a generator and its use case.
-
 A generator is a lazy iterator which yields all result inside it. It is efficient as it does not yet consume memory
-The list is only realised when we do next or we iterate through it, yielding a result one by one. Only when the
+The list is only realised when we do next() or we iterate through it, yielding a result one by one. Only when the
 generator is iterated through will then be the object be realised.
+
+Key Concepts:
+
+1. yield passes a value to the caller, without terminating the function
+2. next() calls the generator's implementation until the yield, yielding once, then pauses
+3. send() resumes where you left off by sending a new value into the assignment, (or primes the generator if at the
+beginning), then yield once and pauses
 """
 
 
