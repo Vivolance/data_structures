@@ -2,6 +2,7 @@
 Dijkstra is an algorithm that allows you to find the SHORTEST PATH from a source node to all other paths. (There might
 be multiple path to the same node, and the most direct path may not be the shortest path)
 
+TIME COMPLEXITY: O((V+E)logV)
 
 Key Concepts:
 
