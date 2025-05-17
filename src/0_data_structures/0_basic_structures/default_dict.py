@@ -1,6 +1,7 @@
 """
 A default dictionary is a dictionary that auto creates itself when a key that does not exist is passed in.
 """
+
 from collections import defaultdict
 from typing import Any
 
