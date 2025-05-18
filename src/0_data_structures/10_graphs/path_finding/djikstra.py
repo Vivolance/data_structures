@@ -59,6 +59,7 @@ def dijkstra(source: str, adjacency_list: list[tuple[str, str, int]]) -> dict[st
     final_distance[source] = 0
 
     # Initialise priority queue to start travelling entire adjacency list
+    # A list with 1 element is a valid heap, hence we can use heappop() or heappush() directly without calling heapify
     priority_queue: list[tuple[int, str]] = [(0, source)]
     while priority_queue:
         curr_distance, curr_node = heapq.heappop(priority_queue)
