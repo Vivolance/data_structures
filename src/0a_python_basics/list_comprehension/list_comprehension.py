@@ -18,7 +18,6 @@ def timeit(func):
         end = time.perf_counter()
         print(f"{func.__name__} took {end - start:.6f} seconds")
         return result
-
     return wrapper
 
 
