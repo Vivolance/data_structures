@@ -1,0 +1,21 @@
+Generic single-database configuration.
+
+Setting up and managing your database tables using alembic
+
+1. Alembic init to begin set up
+```
+alembic init database
+```
+
+2. Create tables.py folder which define the schema of your tables
+
+3. 3 changes in env.py for configuration
+    - add load_dotenv()
+    - target_metadata = metadata (from none to metadata)
+    - change both configs of online and offline migrations to target .env postgres
+        - url = config.get_main_option("POSTGRES_URL")
+        - connectable = engine_from_config(
+            {"sqlalchemy.url": os.getenv("POSTGRES_URL")},
+            prefix="sqlalchemy.",
+            poolclass=pool.NullPool,
+        )
