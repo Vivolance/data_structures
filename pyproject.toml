@@ -30,6 +30,10 @@ sortedcontainers = "^2.4.0"
 sqlalchemy = "^2.0.40"
 psycopg2 = "^2.9.10"
 psycopg2-binary = "^2.9.10"
+alembic = "^1.16.1"
+pydantic = "^2.11.5"
+asyncpg = "^0.30.0"
+dotenv = "^0.9.9"
 
 
 [build-system]
