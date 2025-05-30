@@ -22,11 +22,39 @@ Key Concepts:
     .
     .
 We can use a DFS approach at each level to traverse downwards first, caching where we left off
-This tells us that we need a stack.
+This tell us that we need a stack.
 
-2.
+2. Call stack should contain information regarding where we left off and the answer up to that point
+    - Remaining value up to that point we have chosen
+    - Index that we left off [2,5,6,9] so that we can choose the next number
+    - Answer set up till now []
 """
 
 
+def combination_sum(nums: list[int], target: int) -> list[list[int]]:
+    nums.sort()
+    result: list[list[int]] = []
+    n: int = len(nums)
+    # Base case if target is less than smallest nums
+    if target < nums[0]:
+        return [[]]
+    call_stack: list[tuple[list[int], int, int]] = [([], target, 0)]
+    while call_stack:
+        answer_set, remaining, index = call_stack.pop()
+        if remaining == 0:
+            result.append(answer_set)
+        else:
+            for i in range(index, n):
+                if nums[i] <= remaining:
+                    updated_answer_set: list[int] = answer_set + [nums[i]]
+                    new_remaining: int = remaining - nums[i]
+                    call_stack.append((updated_answer_set, new_remaining, i))
+                else:
+                    break
+
+    return result
 
 
+if __name__ == "__main__":
+    combination_sum_one_result: list[list[int]] = combination_sum([2, 5, 6, 9], 9)
+    print(combination_sum_one_result)
