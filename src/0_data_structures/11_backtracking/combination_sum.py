@@ -97,5 +97,7 @@ def combination_sum_two(nums: list[int], target: int) -> list[list[int]]:
 if __name__ == "__main__":
     combination_sum_one_result: list[list[int]] = combination_sum([2, 5, 6, 9], 9)
     print(combination_sum_one_result)
-    combination_sum_two_result: list[list[int]] = combination_sum_two([9, 2, 2, 4, 6, 1, 5], 8)
+    combination_sum_two_result: list[list[int]] = combination_sum_two(
+        [9, 2, 2, 4, 6, 1, 5], 8
+    )
     print(combination_sum_two_result)
