@@ -35,3 +35,5 @@ Schedule automate, autoscaling of jobs, or workflows
 6. Data Management and Flow
 Tables, database, schemas, used for organizing, securing, and discovering data essential for both compliance and
 productivity
+
+7.
