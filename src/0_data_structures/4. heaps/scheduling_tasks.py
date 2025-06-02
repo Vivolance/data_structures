@@ -19,30 +19,44 @@ import heapq
 from datetime import timedelta, datetime
 
 
-tasks: list[tuple[datetime, timedelta]] = [
-    (
-        datetime(2025, 1, 1, 0, 0, 0),
-        timedelta(hours=1)
-    ),
-    (
-        datetime(2025, 1, 1, 1, 0, 0),
-        timedelta(hours=3)
-    ),
-    (
-        datetime(2025, 1, 1, 3, 0, 0),
-        timedelta(hours=2)
-    ),
-]
+def scheduler(tasks: list[tuple[datetime, timedelta]]) -> datetime:
+    """
+    Takes in a list of tasks (start_time, duration) and returns the datetime when all tasks will be finished at the soonest
 
-# arrange the tasks into a heap
-heapq.heapify(tasks)
+    Key Concepts:
+    1. Use a min heap to identify which is the earliest start time of each task
+    2. Always prioritise choosing tasks that can be started first
+    """
 
-# create a start time for all tasks
-curr_time: datetime = datetime(2025, 1, 1, 0, 0, 0)
+    # arrange the tasks into a heap
+    heapq.heapify(tasks)
 
-while tasks:
-    curr_task: tuple[datetime, timedelta] = heapq.heappop(tasks)
-    curr_time: datetime = max(curr_time, curr_task[0])
-    curr_time += curr_task[1]
+    # create a start time for all tasks
+    curr_time: datetime = datetime(2025, 1, 1, 0, 0, 0)
 
-print(curr_time)
+    while tasks:
+        curr_task: tuple[datetime, timedelta] = heapq.heappop(tasks)
+        curr_time: datetime = max(curr_time, curr_task[0])
+        curr_time += curr_task[1]
+
+    return curr_time
+
+
+if __name__ == "__main__":
+    tasks: list[tuple[datetime, timedelta]] = [
+        (
+            datetime(2025, 1, 1, 0, 0, 0),
+            timedelta(hours=1)
+        ),
+        (
+            datetime(2025, 1, 1, 1, 0, 0),
+            timedelta(hours=3)
+        ),
+        (
+            datetime(2025, 1, 1, 3, 0, 0),
+            timedelta(hours=2)
+        ),
+    ]
+
+    earliest_complete: datetime = scheduler(tasks)
+    print(earliest_complete)
