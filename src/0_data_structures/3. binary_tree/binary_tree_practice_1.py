@@ -39,7 +39,7 @@ class BinaryTree:
         self.root = root
 
     @staticmethod
-    def left_rotate(old_parent: BinaryTreeNode) -> BinaryTreeNode:
+    def _left_rotate(old_parent: BinaryTreeNode) -> BinaryTreeNode:
         new_parent: BinaryTreeNode = old_parent.right
         old_parent.right = new_parent.left
         new_parent.left = old_parent
@@ -48,7 +48,7 @@ class BinaryTree:
         return new_parent
 
     @staticmethod
-    def right_rotate(old_parent: BinaryTreeNode) -> BinaryTreeNode:
+    def _right_rotate(old_parent: BinaryTreeNode) -> BinaryTreeNode:
         new_parent: BinaryTreeNode = old_parent.left
         old_parent.left = new_parent.right
         new_parent.right = old_parent
@@ -115,30 +115,30 @@ class BinaryTree:
                 is_rotated = True
                 if curr_ptr.right and curr_ptr.right.right:
                     old_parent: BinaryTreeNode = curr_ptr
-                    new_parent: BinaryTreeNode = BinaryTree.left_rotate(old_parent)
+                    new_parent: BinaryTreeNode = BinaryTree._left_rotate(old_parent)
                 elif curr_ptr.right and curr_ptr.right.left:
                     # Rotate right then left
                     old_parent: BinaryTreeNode = curr_ptr
-                    new_parent_rotated: BinaryTreeNode = BinaryTree.right_rotate(
+                    new_parent_rotated: BinaryTreeNode = BinaryTree._right_rotate(
                         old_parent.right
                     )
                     old_parent.right = new_parent_rotated
-                    new_parent: BinaryTreeNode = BinaryTree.left_rotate(old_parent)
+                    new_parent: BinaryTreeNode = BinaryTree._left_rotate(old_parent)
 
             elif balance_factor > 1:
                 # Left Heavy
                 is_rotated = True
                 if curr_ptr.left and curr_ptr.left.left:
                     old_parent: BinaryTreeNode = curr_ptr
-                    new_parent: BinaryTreeNode = BinaryTree.right_rotate(old_parent)
+                    new_parent: BinaryTreeNode = BinaryTree._right_rotate(old_parent)
                 elif curr_ptr.left and curr_ptr.left.right:
                     # Rotate left then right
                     old_parent: BinaryTreeNode = curr_ptr
-                    new_parent_rotated: BinaryTreeNode = BinaryTree.left_rotate(
+                    new_parent_rotated: BinaryTreeNode = BinaryTree._left_rotate(
                         old_parent.left
                     )
                     old_parent.left = new_parent_rotated
-                    new_parent: BinaryTreeNode = BinaryTree.right_rotate(old_parent)
+                    new_parent: BinaryTreeNode = BinaryTree._right_rotate(old_parent)
 
             if is_rotated:
                 # Ensure the grandparent points to the new parent
