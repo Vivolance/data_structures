@@ -32,9 +32,13 @@ sum_age: pd.Series = name_groupby.sum()
 print(sum_age)
 
 # Creating indexes, so that searching using loc is O(1)
-df: pd.DataFrame = pd.read_csv("src/1_pandas/sample.csv")
+df: pd.DataFrame = pd.read_csv("src/1_pandas/practice_1/sample.csv")
 copy_df: pd.DataFrame = df.set_index(["town"])
 print(copy_df)
+
+# Iterate through each rows in the df
+for name, age in df.iterrows():
+    print(f"{name}: {age}")
 
 # Searching by index, returning everything of that index
 only_amk: pd.DataFrame = copy_df.loc["punggol"]
@@ -56,4 +60,4 @@ my_list: list[dict[str, int]] = [
 
 df: pd.DataFrame = pd.DataFrame(my_list)
 print(df)
-df.to_csv("src/1_pandas/car_list.csv", index=False)
+df.to_csv("src/1_pandas/practice_1/car_list.csv", index=False)
