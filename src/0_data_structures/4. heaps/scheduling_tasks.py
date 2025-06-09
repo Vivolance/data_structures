@@ -15,6 +15,7 @@ return datetime after all tasks finished
 Example output:
 datetime(year=2024, month=10, day=1, hour=6, minute=0, second=0)
 """
+
 import heapq
 from datetime import timedelta, datetime
 
@@ -44,18 +45,9 @@ def scheduler(tasks: list[tuple[datetime, timedelta]]) -> datetime:
 
 if __name__ == "__main__":
     tasks: list[tuple[datetime, timedelta]] = [
-        (
-            datetime(2025, 1, 1, 0, 0, 0),
-            timedelta(hours=1)
-        ),
-        (
-            datetime(2025, 1, 1, 1, 0, 0),
-            timedelta(hours=3)
-        ),
-        (
-            datetime(2025, 1, 1, 3, 0, 0),
-            timedelta(hours=2)
-        ),
+        (datetime(2025, 1, 1, 0, 0, 0), timedelta(hours=1)),
+        (datetime(2025, 1, 1, 1, 0, 0), timedelta(hours=3)),
+        (datetime(2025, 1, 1, 3, 0, 0), timedelta(hours=2)),
     ]
 
     earliest_complete: datetime = scheduler(tasks)
