@@ -7,6 +7,7 @@ its behaviour. One such useful case is to time the execution of a function]
 3. @functools.wraps allow us to comprehensively ensures the wrapped function inherits all dunder attributes of the old
 function
 """
+
 import functools
 import time
 from typing import Any, Callable
@@ -22,6 +23,7 @@ def timeit(func: Callable[..., Any]) -> Callable[..., Any]:
         end_s: float = time.perf_counter()
         print(f"function: {func.__name__} took {end_s - start_s} s")
         return result
+
     return timed_function
 
 
