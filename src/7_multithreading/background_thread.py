@@ -15,5 +15,6 @@ if __name__ == "__main__":
         target=background_callable, args=("Jason", 10)
     )
     background_thread.start()
+    # Ensure that background thread ends before main thread ends
     background_thread.join()
     print("end of background thread")
