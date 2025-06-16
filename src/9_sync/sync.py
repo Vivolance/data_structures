@@ -8,14 +8,14 @@ executed sequentially by lines
 import time
 
 
-def brewCoffee() -> str:
+def brew_coffee() -> str:
     print("Start brewing coffee")
     time.sleep(2)
     print("Coffee brewing...")
     return "Coffee Served"
 
 
-def toastBread() -> str:
+def toast_bread() -> str:
     print("Start toasting bread")
     time.sleep(2)
     print("Bread toasting...")
@@ -24,9 +24,9 @@ def toastBread() -> str:
 
 def main() -> str:
     start_time = time.perf_counter()
-    result_coffee: str = brewCoffee()
+    result_coffee: str = brew_coffee()
     print(result_coffee)
-    result_bread: str = toastBread()
+    result_bread: str = toast_bread()
     print(result_bread)
     end_time = time.perf_counter()
     elapsed_time = end_time - start_time
