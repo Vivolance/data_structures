@@ -3,9 +3,7 @@ from threading import Thread, Event
 
 
 class S3BackgroundThread(Thread):
-    def __init__(
-        self, queue: Queue
-    ) -> None:
+    def __init__(self, queue: Queue) -> None:
         """
         Background thread that batches and uploads to S3
         """
