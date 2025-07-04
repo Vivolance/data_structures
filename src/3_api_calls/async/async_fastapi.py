@@ -12,7 +12,7 @@ from pydantic import BaseModel
 
 import uvicorn
 
-app= FastAPI()
+app = FastAPI()
 
 
 # Landing page
