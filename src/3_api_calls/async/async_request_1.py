@@ -17,28 +17,20 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
-@retry(
-    wait=wait_fixed(0.01),
-    stop=stop_after_attempt(5),
-    reraise=True
-)
+@retry(wait=wait_fixed(0.01), stop=stop_after_attempt(5), reraise=True)
 async def async_request(url: str) -> str:
-    headers: dict[str, str] = {
-        "accept": "application/json"
-    }
-    params: dict[str, str] = {
-        "include_platform": "True"
-    }
+    headers: dict[str, str] = {"accept": "application/json"}
+    params: dict[str, str] = {"include_platform": "True"}
     try:
         async with aiohttp.ClientSession() as sess:
-            async with sess.get(
-                url, headers=headers, params=params
-            ) as response:
+            async with sess.get(url, headers=headers, params=params) as response:
                 if response.status == 200:
                     response_text: str = await response.text()
                     return response_text
                 else:
-                    logger.error(f"Encountered non 200 status, status code: {response.status}")
+                    logger.error(
+                        f"Encountered non 200 status, status code: {response.status}"
+                    )
                     return ""
     except aiohttp.ClientError as e:
         logger.error(f"failed with {e}")
